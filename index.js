@@ -17,7 +17,8 @@ if (!fs.existsSync("nebula-cert")) {
 const prefix = "NZ";
 const startIP = 100;
 const endIP = 255;
-const LIGHTHOUST_IP = process.env.LIGHTHOUST_IP;
+const NEBULA_IP = process.env.NEBULA_IP;
+const PUBLIC_IP = process.env.PUBLIC_IP;
 const configPath = "config.yaml";
 
 const nebula_files = () => {
@@ -35,7 +36,9 @@ for (let i = startIP; i < endIP; i++) {
   if (pathExists || zipExists) continue;
 
   // crt and key
-  const sign_new = `./nebula-cert sign -name "${currentPath}" -ip "192.168.100.${i}/24"`;
+  const ip = `${NEBULA_IP.split(".").slice(0, -1).join(".")}.${i}/24`;
+  console.log(ip);
+  const sign_new = `./nebula-cert sign -name "${currentPath}" -ip "${ip}"`;
   if (shell.exec(sign_new).code !== 0) {
     shell.echo("ERROR: " + sign_new);
     shell.exit(1);
@@ -55,13 +58,14 @@ for (let i = startIP; i < endIP; i++) {
   const nebulaBat = "nebula.bat";
   const batString = `%~dp0/nebula.exe --config ${configPath}\npause`;
   fs.writeFileSync(nebulaBat, batString);
-  shell.sed("-i", "__PH__", currentPath, configPath);
-  shell.sed("-i", "__LIGHTHOUST_IP__", LIGHTHOUST_IP, configPath);
+  shell.sed("-i", "__PH", currentPath, configPath);
+  shell.sed("-i", "__NEBULA_IP", NEBULA_IP, configPath);
+  shell.sed("-i", "__PUBLIC_IP", PUBLIC_IP, configPath);
 
   // zip folder and remove
   shell.cd("..");
   shell.exec(`zip -vr ${currentPath}.zip ${currentPath}/ -x "*.DS_Store"`);
-  shell.rm("-rf", currentPath);
+  // shell.rm("-rf", currentPath);
 
   return;
 }
