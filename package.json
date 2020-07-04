@@ -1,7 +1,6 @@
 {
   "name": "nebula",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +11,15 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "shelljs": "^0.8.4"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dianyij/nebula_node_gen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dianyij/nebula_node_gen/issues"
+  },
+  "homepage": "https://github.com/dianyij/nebula_node_gen#readme",
+  "description": "nebula node gen"
 }
