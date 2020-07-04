@@ -1,7 +1,7 @@
 ```shell
 tree -a -L 1
 .
-├── .env # LIGHTHOUST_IP=100.100.100.100
+├── .env
 ├── .example.yaml
 ├── .git
 ├── .gitignore
@@ -20,5 +20,11 @@ tree -a -L 1
 ## Run
 
 1. `npm i`
-1. `touch .env`, edit LIGHTHOUST_IP
+1. `touch .env` (see example below)
 1. `node index.js`
+
+```patch
+# .env
++ NEBULA_IP=192.168.100.1
++ PUBLIC_IP=10.10.10.10
+```
