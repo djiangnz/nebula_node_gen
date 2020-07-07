@@ -1,12 +1,13 @@
 *.key
 *.cache
 *.yaml
+*.yml
 *.crt
 *.zip
 **/*DS_Store
 nebula*
 
-!.example.yaml
+!.example.yml
 
 # Logs
 logs

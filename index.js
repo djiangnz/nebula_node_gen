@@ -24,7 +24,8 @@ const CONTAINS_EXEC_FILES = process.env.CONTAINS_EXEC_FILES == 0 ? false : true;
 
 console.log({ PREFIX, BATCH_SIZE, NEBULA_IP, PUBLIC_IP, START_IP, END_IP, CONTAINS_EXEC_FILES });
 
-const configPath = "config.yaml";
+const configPath = "config.yml";
+const batPath = "nebula.bat";
 
 const nebula_files = () => {
   const nebulas = ["ca.crt"];
@@ -60,15 +61,15 @@ for (let i = START_IP, j = 0; i < END_IP; i++) {
 
   // config file
   shell.cd(currentPath);
-  shell.cp(`../.example.yaml`, configPath);
-
-  // bat for windows
-  const nebulaBat = "nebula.bat";
-  const batString = `%~dp0/nebula.exe --config ${configPath}\npause`;
-  fs.writeFileSync(nebulaBat, batString);
+  shell.cp(`../.example.yml`, configPath);
   shell.sed("-i", "__PH", currentPath, configPath);
   shell.sed("-i", "__NEBULA_IP", NEBULA_IP, configPath);
   shell.sed("-i", "__PUBLIC_IP", PUBLIC_IP, configPath);
+
+  // bat for windows
+  shell.cp(`../.example.bat`, batPath);
+  const batString = `%~dp0/nebula.exe --config ${configPath}\npause`;
+  shell.sed("-i", ":: CHANGE_POINT", batString, batPath);
 
   // zip folder and remove
   shell.cd("..");
